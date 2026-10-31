@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#100c1d">
+  <title>KTY-01 — AI Administrator Kitty</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">K<span>✦</span></div>
+        <div><strong>KTY-01</strong><small>AI ADMINISTRATOR KITTY</small></div>
+        <button class="icon-btn mobile-close" id="closeSidebar" aria-label="Close menu">×</button>
+      </div>
+      <button class="new-chat" id="newChat">＋ <span>New conversation</span></button>
+      <div class="side-label">WORKSPACE</div>
+      <button class="nav-item active" data-view="chat"><span>◈</span> AI Companion</button>
+      <button class="nav-item" data-view="stories"><span>✧</span> Story Studio</button>
+      <button class="nav-item" data-view="images"><span>▧</span> Image Studio</button>
+      <button class="nav-item" data-view="coding"><span>⌘</span> Coding Lab</button>
+      <button class="nav-item" data-view="memory"><span>◎</span> Memory Vault</button>
+      <div class="side-spacer"></div>
+      <div class="status-card"><span class="status-dot"></span><div><strong id="connectionStatus">Local preview</strong><small id="connectionHint">Connect a backend for AI replies</small></div></div>
+      <button class="nav-item" id="settingsButton"><span>⚙</span> Settings</button>
+      <div class="profile"><div class="avatar">K</div><div><strong>Administrator Kitty</strong><small>Personal AI companion</small></div></div>
+    </aside>
+
+    <main class="main-panel">
+      <header class="topbar">
+        <button class="icon-btn menu-toggle" id="openSidebar" aria-label="Open menu">☰</button>
+        <div class="topbar-title"><span class="online-dot"></span><strong id="viewTitle">AI Companion</strong><span class="model-pill">KTY CORE</span></div>
+        <button class="icon-btn" id="clearChat" title="Clear current conversation" aria-label="Clear chat">⌫</button>
+      </header>
+
+      <section class="welcome" id="welcome">
+        <div class="orb-wrap"><div class="orb"><span>猫</span></div><i class="orbit orbit-one"></i><i class="orbit orbit-two"></i></div>
+        <div class="eyebrow">PERSONAL AI SYSTEM · ONLINE</div>
+        <h1>At your service,<br><span>Alfa.</span></h1>
+        <p>I’m Kitty — your AI companion for ideas, stories, code, and whatever we dream up next.</p>
+        <div class="quick-grid">
+          <button class="quick-card" data-prompt="Help me plan a creative project from idea to launch."><span>✦</span><strong>Plan a project</strong><small>Turn a big idea into steps</small></button>
+          <button class="quick-card" data-prompt="Let's write a cinematic anime story scene with dialogue and character thoughts."><span>✧</span><strong>Write a story</strong><small>Build worlds and characters</small></button>
+          <button class="quick-card" data-prompt="Help me debug or build a web app. Ask for the code if you need it."><span>⌘</span><strong>Build with code</strong><small>Debug, explain, create</small></button>
+          <button class="quick-card" data-prompt="Give me three original image concepts for a moonlit Japanese shrine."><span>▧</span><strong>Imagine something</strong><small>Explore visual concepts</small></button>
+        </div>
+      </section>
+
+      <section class="conversation hidden" id="conversation" aria-live="polite"></section>
+
+      <section class="tool-view hidden" id="toolView">
+        <div class="tool-heading"><div class="tool-icon" id="toolIcon">✧</div><div><div class="eyebrow">KTY CREATIVE SYSTEM</div><h2 id="toolTitle">Story Studio</h2><p id="toolDescription">Create something worth remembering.</p></div></div>
+        <div class="tool-card">
+          <label for="toolPrompt" id="toolPromptLabel">What would you like to create?</label>
+          <textarea id="toolPrompt" rows="4" placeholder="Describe your idea..."></textarea>
+          <div class="tool-actions"><span class="muted">Your prompt stays in this browser until you send it.</span><button class="primary-btn" id="runTool">Create with Kitty ↗</button></div>
+        </div>
+        <div id="toolResult" class="tool-result hidden"></div>
+      </section>
+
+      <section class="memory-view hidden" id="memoryView">
+        <div class="tool-heading"><div class="tool-icon">◎</div><div><div class="eyebrow">PERSONAL CONTEXT</div><h2>Memory Vault</h2><p>Only save details you choose to keep on this device.</p></div></div>
+        <div class="tool-card">
+          <label for="memoryInput">Add a memory or preference</label>
+          <textarea id="memoryInput" rows="3" placeholder="For example: I prefer detailed, cinematic story scenes."></textarea>
+          <div class="tool-actions"><span class="muted">Stored locally in this browser.</span><button class="primary-btn" id="saveMemory">Save memory ＋</button></div>
+        </div>
+        <div id="memoryList" class="memory-list"></div>
+      </section>
+
+      <footer class="composer-wrap" id="composerWrap">
+        <div class="composer">
+          <textarea id="messageInput" rows="1" placeholder="Message Kitty..." aria-label="Message Kitty"></textarea>
+          <div class="composer-bottom"><div class="composer-tools"><button class="mini-btn" id="voiceInput" title="Dictate a message">🎙 <span>Voice</span></button><button class="mini-btn" id="attachHint" title="Image feature status">▧ <span>Image tools</span></button><span class="composer-note">KTY-01 can make mistakes. Check important info.</span></div><button class="send-btn" id="sendButton" aria-label="Send message">↑</button></div>
+        </div>
+      </footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+
+  <dialog id="settingsDialog">
+    <form method="dialog" class="settings-form">
+      <div class="dialog-head"><div><div class="eyebrow">CONFIGURATION</div><h2>KTY-01 Settings</h2></div><button class="icon-btn" aria-label="Close settings">×</button></div>
+      <label for="personality">Personality</label>
+      <select id="personality">
+        <option value="warm">Warm & supportive</option>
+        <option value="playful">Playful & witty</option>
+        <option value="formal">Calm administrator</option>
+        <option value="creative">Creative storyteller</option>
+      </select>
+      <label for="displayName">What should Kitty call you?</label>
+      <input id="displayName" maxlength="40" value="Alfa">
+      <label class="check-label"><input id="useMemory" type="checkbox" checked> Include saved memories in AI requests</label>
+      <p class="muted">Memory is stored in this browser. Avoid saving passwords, private keys, or sensitive personal details.</p>
+      <button class="primary-btn full-width" id="saveSettings" value="save">Save settings</button>
+    </form>
+  </dialog>
+  <script src="/app.js"></script>
+</body>
+</html>
